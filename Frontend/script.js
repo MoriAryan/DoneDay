@@ -7,33 +7,19 @@ function getTodayDate() {
   return today.toISOString().split("T")[0]; // e.g., "2025-05-17"
 }
 
-async function loadHabits() {
-  try {
-    const res = await fetch("/api/habits");
-    return await res.json();
-  } catch {
-    return [];
-  }
+function loadHabits() {
+  return JSON.parse(localStorage.getItem("habits")) || [];
 }
 
-async function loadProgressData() {
-  try {
-    const res = await fetch(`/api/progress?date=${getTodayDate()}`);
-    return await res.json();
-  } catch {
-    return {
-      date: getTodayDate(),
-      progress: {},
-    };
-  }
+function loadProgressData() {
+  return JSON.parse(localStorage.getItem("progressData")) || {
+    date: getTodayDate(),
+    progress: {},
+  };
 }
 
-async function saveProgressData(data) {
-  await fetch("/api/progress", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
-  });
+function saveProgressData(data) {
+  localStorage.setItem("progressData", JSON.stringify(data));
 }
 
 function updateWaterLevel() {
@@ -47,11 +33,12 @@ function updateWaterLevel() {
   wave.style.bottom = `${newBottom}%`;
 }
 
-async function renderHabits() {
-  const habits = await loadHabits();
-  const { date, progress } = await loadProgressData();
+function renderHabits() {
+  const habits = loadHabits();
+  const { date, progress } = loadProgressData();
   const today = getTodayDate();
 
+  // If new day → reset progress
   const freshProgress = (date !== today) ? {} : progress;
   habitList.innerHTML = "";
 
@@ -73,24 +60,34 @@ async function renderHabits() {
     habitList.appendChild(li);
   });
 
+  // Save today's progress and date
   saveProgressData({ date: today, progress: freshProgress });
   updateWaterLevel();
 }
 
+// Refresh from other tabs
 window.addEventListener("storage", function (event) {
   if (event.key === "habits") {
     renderHabits();
   }
 });
-window.addEventListener("beforeunload", () => {
-  // Save progress before leaving page
-  const checkboxes = document.querySelectorAll("#habit-list input[type='checkbox']");
-  const freshProgress = {};
-  checkboxes.forEach(checkbox => {
-    const habit = checkbox.nextSibling.textContent.trim();
-    freshProgress[habit] = checkbox.checked;
-  });
-  saveProgressData({ date: getTodayDate(), progress: freshProgress });
-});
 
-renderHabits();
+// When returning from edit page
+if (localStorage.getItem("habitsUpdated") === "true") {
+  localStorage.removeItem("habitsUpdated");
+
+  const { date, progress } = loadProgressData();
+  const habits = loadHabits();
+  const updatedProgress = {};
+
+  // Only keep progress of habits that still exist
+  habits.forEach(habit => {
+    updatedProgress[habit] = progress.hasOwnProperty(habit) ? progress[habit] : false;
+  });
+
+  saveProgressData({ date: date, progress: updatedProgress });
+  renderHabits();
+} else {
+  renderHabits();
+}
+
