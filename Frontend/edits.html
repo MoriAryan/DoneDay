@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Edit Habits</title>
+  <link rel="stylesheet" href="style2.css" />
+  <script defer src="edit.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body class="dark-theme">
+
+  <header>
+    <h1>Habit Editor</h1>
+  </header>
+
+  <main>
+    <div class="habit-card">
+      <ul id="habitList" class="habit-list"></ul>
+      <button id="addHabitBtn" class="add-habit-button">+ Add Habit</button>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Habit Tracker</p>
+  </footer>
+
+
+  <script>const habitList = document.getElementById("habitList");
+const addHabitBtn = document.getElementById("addHabitBtn");
+
+let habits = JSON.parse(localStorage.getItem("habits")) || [];
+
+function saveHabits() {
+  localStorage.setItem("habits", JSON.stringify(habits));
+  localStorage.setItem("habitsUpdated", "true");
+}
+
+function renderHabits() {
+  habitList.innerHTML = "";
+
+  habits.forEach((habit, index) => {
+    const li = document.createElement("li");
+
+    const span = document.createElement("span");
+    span.textContent = habit;
+    span.onclick = () => editHabit(span, index);
+
+    const delBtn = document.createElement("button");
+    delBtn.innerHTML = `<i class="fas fa-trash"></i>`;
+    delBtn.className = "delete-btn";
+    delBtn.onclick = () => {
+      habits.splice(index, 1);
+      saveHabits();
+      renderHabits();
+    };
+
+    li.appendChild(span);
+    li.appendChild(delBtn);
+    habitList.appendChild(li);
+  });
+}
+
+function editHabit(span, index) {
+  const input = document.createElement("input");
+  input.type = "text";
+  input.value = span.textContent;
+  span.replaceWith(input);
+  input.focus();
+
+  const saveEdit = () => {
+    const newText = input.value.trim();
+    if (newText) {
+      habits[index] = newText;
+      saveHabits();
+      renderHabits();
+    } else {
+      input.replaceWith(span); // Cancel edit if empty
+    }
+  };
+
+  input.addEventListener("blur", saveEdit);
+  input.addEventListener("keydown", e => {
+    if (e.key === "Enter") {
+      input.blur();
+    } else if (e.key === "Escape") {
+      input.replaceWith(span); // Cancel edit on ESC
+    }
+  });
+}
+
+addHabitBtn.onclick = () => {
+  habits.push("New Habit");
+  saveHabits();
+  renderHabits();
+};
+
+renderHabits();
+
+  </script>
+</body>
+</html>
