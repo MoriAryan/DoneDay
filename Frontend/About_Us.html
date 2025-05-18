@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DoneDay - Home</title>
+  <link rel="stylesheet" href="style.css" />
+  
+  <style>
+    /* body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    } */
+
+    /* Navigation bar */
+    nav {
+      /* background-color: #4CAF50; */
+      display: flex;
+      justify-content: center;
+      padding: 15px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      background: rgb(26, 24, 24);
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h1, h2 {
+      background: linear-gradient(90deg, #00f2fe, #4facfe);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+    }
+
+    ul, ol {
+      padding-left: 20px;
+    }
+
+    li {
+      margin-bottom: 10px;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      color: #888;
+      font-size: 14px;
+    }
+
+    .back-button {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      background: linear-gradient(90deg, #00f2fe, #4facfe);
+  /* -webkit-background-clip: text;*/
+  /* -webkit-text-fill-color: transparent;  */
+      color: white;
+      border: none;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.2s;
+    }
+
+    .back-button:hover {
+      background: linear-gradient(to right, #0072ff, #00c6ff);
+    
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <img src="Images/LOGO.png" alt="DoneDay Logo">
+    <div>
+      <a href="index.html">Home</a>
+      <a href="Edit_Habits.html">Edit Habits</a>
+      <a href="Progress.html">Progress</a>
+      <a href="About_Us.html">About</a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container">
+    <h1>About This Website</h1>
+
+    <h2>What is this website?</h2>
+    <p>This is a simple habit tracking web app built to help students and individuals stay consistent with their daily goals and routines.</p>
+
+    <h2>Why it was made</h2>
+    <p>We all have good intentions, but tracking progress is often messy and gets forgotten. This tool lets you visually track your habits every day, helping you stay motivated, build discipline, and see your growth over time.</p>
+
+    <h2>How does it work?</h2>
+    <ol>
+      <li><strong>Add Habits:</strong> You can add any habit you want to track (like studying, drinking water, working out, etc.).</li>
+      <li><strong>Mark Daily Progress:</strong> Each day, check off which habits you completed.</li>
+      <li><strong>View Weekly Summary:</strong> See your entire week’s progress in one table with ✔️ and ❌ for each habit.</li>
+    </ol>
+
+    <h2>Key Features</h2>
+    <ul>
+      <li><strong>Simple Interface:</strong> No login or complicated setup. Just start tracking.</li>
+      <li><strong>Weekly Overview:</strong> Get a clear table view of your habit completion across the week.</li>
+      <li><strong>Progress Percentage:</strong> See how consistent you’ve been each day with a progress score.</li>
+      <li><strong>Real-Time Updates:</strong> All data is saved and reflected instantly in the weekly progress view.</li>
+    </ul>
+
+    <h2>Who is it for?</h2>
+    <p>This website is especially useful for students, self-improvement seekers, or anyone trying to build good daily habits.</p>
+
+    <h2>Tech Stack Used</h2>
+    <ul>
+      <li>Frontend: HTML, CSS, JavaScript</li>
+      <li>Backend: Node.js with Express (for APIs)</li>
+      <li>Data Storage: JSON file / Local or future database support</li>
+    </ul>
+
+    <!-- Go Back Button -->
+    <a href="index.html" class="back-button">← Go Back to Home</a>
+
+    <footer>
+      <p>© 2025 Habit Tracker Project — Built with ❤️ by Team DoneDay</p>
+    </footer>
+  </div>
+
+</body>
+</html>
