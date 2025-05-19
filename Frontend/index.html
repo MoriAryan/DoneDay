@@ -4,14 +4,398 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>DoneDay - Home</title>
-  <link rel="stylesheet" href="style.css" />
+  <style>
+
+html, body {
+  width: 100%;
+  overflow-x: hidden; /* avoids horizontal scroll */
+}
+    /* This is the main body designing */
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #121212;
+      color: #ffffff;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+    }
+    
+    nav img {
+      height: 60px;
+    }
+
+    nav a {
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 18px;
+      margin: 0 15px;
+      padding: 8px 16px;
+      border-radius: 8px;
+      transition: background 0.3s ease;
+    }
+    
+    nav a:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    
+    
+    /* this is hero section desingning giving teaser of the website */
+    .hero {
+  width: 100%;
+  padding: 100px 20px 80px;
+  text-align: center;
+  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+  color: #ffffff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  position: relative;
+  z-index: 1;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at top left, rgba(0, 255, 255, 0.1), transparent 70%);
+  z-index: -1;
+}
+
+.hero h1 {
+  font-size: 48px;
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+.hero h1 .highlight {
+  background: linear-gradient(90deg, #00f2fe, #4facfe);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero .tagline {
+  font-size: 22px;
+  font-style: italic;
+  margin-bottom: 30px;
+  color: #cccccc;
+}
+
+.hero .description {
+  max-width: 800px;
+  margin: 0 auto;
+  font-size: 18px;
+  line-height: 1.7;
+  color: #dddddd;
+}
+
+
+
+/* this is daily habit checklist design */
+.habit-section {
+  width: 90%;
+  max-width: 900px;
+  margin: 60px auto;
+  padding: 5px 30px 30px 30px;
+  border-radius: 15px;
+  background: linear-gradient(to right, #232526, #414345);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+  transition: transform 0.3s;
+}
+
+.habit-section h2 {
+    text-align: center;
+    font-size: 50px;
+    margin-bottom: 20px;
+  } 
+  
+  
+  .habit-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
+  align-items: center;
+}
+
+.habit-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.habit-list li {
+  font-size: 1.1em;
+  margin: 10px 0;
+}
+
+.circle-wrapper {
+  width: 250px;
+  height: 250px;
+  position: relative;
+  
+}
+
+
+.circle-progress {
+    /* i want to make this circle round */
+    
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    border: 10px solid rgb(42, 37, 37);
+    overflow: hidden;
+    position: relative;
+    background-color: #ffffff0b;
+  /* box-shadow: inset 0 0 20px rgba(0, 198, 255, 0.3); */
+  display: flex;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  align-items: center;
+  justify-content: center;
+}
+
+.circle_wrapper_for_weekly {
+  width: 250px;
+  height: 250px;
+  position: relative;
+}
+
+
+.circle_progress_for_weekly {
+    /* i want to make this circle round */
+    
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    border: 10px solid rgb(42, 37, 37);
+    overflow: hidden;
+    position: relative;
+    background-color: #ffffff0b;
+    /* box-shadow: inset 0 0 20px rgba(0, 198, 255, 0.3); */
+    display: flex;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    align-items: center;
+    justify-content: center;
+  }
+
+  
+  
+  
+  .wave {
+  position: absolute;
+  bottom: -100%;
+  width: 200%;
+  height: 200%;
+  background: 
+  linear-gradient(to top, #3b46d3 0%, #3b46d3 50%, transparent 50%, transparent 100%),
+  url('https://coiger.github.io/fill-water-animation/wave.svg') repeat-x;
+  background-size: 100% 100%, 50% 100%;
+  animation: waveMove 7s linear infinite;
+  opacity: 0.95;
+  z-index: 1;
+  transition: bottom 2s ease-in-out;
+}
+
+
+.percentage-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #000000;
+  z-index: 2;
+}
+
+@keyframes waveMove {
+  0% {
+    background-position-x: 0;
+  }
+  100% {
+    background-position-x: 1000px;
+  }
+}
+
+/* ...existing code... */
+.streak-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 25px;
+  gap: 12px;
+  background: rgba(255, 140, 0, 0.08);
+  border-radius: 12px;
+  padding: 10px 22px;
+  box-shadow: 0 2px 8px rgba(255, 140, 0, 0.08);
+}
+
+.streak-icon {
+  width: 36px;
+  height: 36px;
+  filter: drop-shadow(0 0 8px #ff9800cc);
+  animation: streak-pop 0.7s;
+}
+
+.streak-text {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #ff9800;
+  letter-spacing: 1px;
+}
+
+@keyframes streak-pop {
+  0% { transform: scale(0.7); opacity: 0; }
+  80% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); }
+}
+/* ...existing code... */
+/* this is overall all the sections layout design */
+    section {
+      width: 90%;
+      max-width: 900px;
+      margin: 60px auto;
+      padding: 5px 30px 30px 30px;
+      border-radius: 15px;
+      background: linear-gradient(to right, #232526, #414345);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+      transition: transform 0.3s;
+    }
+    
+    section:hover {
+      transform: translateY(-3px);
+    }
+    
+    section h2 {
+      font-size: 30px;
+      margin-bottom: 15px;
+      color: #f5ba5e;
+    }
+    
+    section p {
+      font-size: 18px;
+      line-height: 1.6;
+      color: #dddddd;
+    }
+    .btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 24px;
+      background: linear-gradient(to right, #00c6ff, #0072ff);
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+    
+    .btn:hover {
+      background: linear-gradient(to right, #0072ff, #00c6ff);
+    }
+    
+    .split-section {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 50px;
+      padding: 80px 10%;
+      background-color: #0d1117;
+      flex-wrap: wrap;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .split-section.reverse {
+  flex-direction: row-reverse;
+}
+
+.text-content {
+  flex: 1;
+  min-width: 300px;
+}
+
+.text-content h2 {
+  font-size: 2rem;
+  color: #00bfff;
+  margin-bottom: 15px;
+}
+
+.text-content p {
+  font-size: 1rem;
+  color: #ccc;
+  line-height: 1.6;
+}
+
+.image-content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  min-width: 300px;
+}
+
+.image-content img {
+  width: 100%;
+  max-width: 450px;
+  /* border-radius: 16px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);*/
+  transition: transform 0.3s ease; 
+}
+
+.image-content img:hover {
+  transform: scale(1.03);
+}
+  
+/* design of footer */
+    footer {
+      text-align: center;
+      padding: 30px;
+      background-color: #111;
+      color: #ccc;
+      font-size: 14px;
+    }
+    
+    footer a {
+      color: #00c6ff;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+    
+    footer a:hover {
+      text-decoration: underline;
+    }
+    
+    
+
+   
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      margin: 10px 0;
+    }
+    
+    
+    
+    
+    
+    
+    
+    </style>
+
+
 </head>
 <body>
   <nav>
     <img src="Images/LOGO.png" alt="DoneDay Logo">
     <div>
       <a href="index.html">Home</a>
-      <a href="Edit_Habits.html">Edit Habits</a>
+      <a href="edits.html">Edit Habits</a>
       <a href="Progress.html">Progress</a>
       <a href="About_Us.html">About</a>
     </div>
@@ -38,10 +422,16 @@
       </div>
       <div class="habit-list">
         <ul id="habit-list"></ul>
-         <button onclick="location.href='edits.html'">Edit Habits</button>
+
       </div>
     </div>
   </section>
+
+  <!-- ...existing code... -->
+<div class="streak-container">
+  <img src="Images/fire.png" alt="Streak Icon" class="streak-icon">
+  <span class="streak-text"><span id="streak-count">0</span> Day Streak!</span>
+</div>
 
 
   <section class="split-section">
@@ -86,10 +476,13 @@ DoneDay is built for those who want results that last — not streaks that break
   <footer>
     <p>&copy; 2023 DoneDay. All rights reserved.</p>
     <p>Contact us: <a href="mailto:donedaybyaryan@gmail.com">donedaybyaryan@gmail.com</a></p>
-    <p>Follow us: <a href="#">Facebook</a> | <a href="#">Twitter</a> | <a href="#">Instagram</a></p>
-    <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+    <p>Follow us: <a href="https://www.linkedin.com/in/mori-aryan-54475a328/">Facebook</a> | <a href="https://www.linkedin.com/in/mori-aryan-54475a328/">Twitter</a> | <a href="https://www.linkedin.com/in/mori-aryan-54475a328/">Instagram</a></p>
+    <p><a href="About_Us.html">Privacy Policy</a> | <a href="About_Us.html">Terms of Service</a></p>
   </footer>
+  <!-- <button id="complete-day-btn" style="position:fixed;bottom:30px;right:30px;z-index:999;">Complete Day</button> -->
 
-  <script src="script.js">  </script>
+  <script src="script.js"> 
+
+ </script>
 </body>
 </html>
