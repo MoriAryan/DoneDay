@@ -1,130 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Weekly Progress</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f3f3f3;
-            padding: 40px;
-            text-align: center;
-        }
-        h1 {
-            color: #333;
-            margin-bottom: 30px;
-        }
-        table {
-            margin: 0 auto;
-            border-collapse: collapse;
-            width: 90%;
-            max-width: 1000px;
-            background-color: white;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        th, td {
-            padding: 12px;
-            border: 1px solid #ccc;
-            text-align: center;
-        }
-        th {
-            background-color: #4CAF50;
-            color: white;
-        }
-        td {
-            font-size: 18px;
-        }
-        .highlight {
-            background-color: #e0f7fa;
-            font-weight: bold;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <title>DoneDay - Progress</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .calendar { display: flex; flex-wrap: wrap; max-width: 350px; }
+    .calendar-day { width: 14.2%; text-align: center; padding: 6px; border: 1px solid #eee; min-height: 50px; }
+    .calendar-day.filled { background: #b2f7b8; }
+    .calendar-day.partial { background: #ffe082; }
+    .calendar-day.empty { background: #ffcdd2; }
+    .week-table { border-collapse: collapse; margin-top: 20px; }
+    .week-table th, .week-table td { border: 1px solid #ccc; padding: 6px 10px; }
+    .calendar-label { font-weight: bold; margin-bottom: 8px; }
+  </style>
 </head>
 <body>
-
-    <h1>Weekly Habit Progress</h1>
-    <table id="progressTable">
-        <!-- Table will be filled by JavaScript -->
+  <div class="container">
+    <h1>Weekly Progress</h1>
+    <table class="week-table" id="week-table">
+      <thead>
+        <tr>
+          <th>Day</th>
+          <th>Completion %</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
     </table>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const habits = [
-                "Drink 2 liters of water",
-                "Read for 30 minutes",
-                "Exercise for 1 hour",
-                "Meditate for 10 minutes",
-                "Write in journal",
-                "Plan tomorrow",
-                "Review goals",
-                "No junk food",
-                "Gratitude note",
-                "10K steps"
-            ];
+    <h1>Monthly Progress</h1>
+    <div class="calendar-label">
+      <span style="background:#b2f7b8;padding:2px 8px;border-radius:4px;">100%</span>
+      <span style="background:#ffe082;padding:2px 8px;border-radius:4px;">Partial</span>
+      <span style="background:#ffcdd2;padding:2px 8px;border-radius:4px;">None</span>
+    </div>
+    <div class="calendar" id="calendar"></div>
+  </div>
+  <script>
+function renderWeekTable() {
+  const weekly = JSON.parse(localStorage.getItem("weeklyProgress") || "{}");
+  const now = new Date();
+  const monday = new Date(now);
+  monday.setDate(now.getDate() - ((now.getDay() + 6) % 7));
+  const weekKey = monday.toISOString().slice(0, 10);
+  const weekData = weekly[weekKey] || {};
 
-            const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-            const table = document.getElementById("progressTable");
+  const tbody = document.querySelector("#week-table tbody");
+  tbody.innerHTML = "";
+  const days = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+  for(let i=0; i<7; i++) {
+    const d = new Date(monday);
+    d.setDate(monday.getDate() + i);
+    const dateKey = d.toISOString().slice(0, 10);
+    const percent = weekData[dateKey] !== undefined ? weekData[dateKey] : "-";
+    const dayName = days[i];
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td>${dayName}<br><small>${dateKey}</small></td><td>${percent}</td>`;
+    tbody.appendChild(tr);
+  }
+}
 
-            const progress = JSON.parse(localStorage.getItem('weeklyProgress')) || {};
+function renderCalendar() {
+  const calendar = document.getElementById("calendar");
+  calendar.innerHTML = "";
+  const monthly = JSON.parse(localStorage.getItem("monthlyProgress") || "{}");
 
-            // Add table headers
-            const headerRow = document.createElement("tr");
-            const habitHeader = document.createElement("th");
-            habitHeader.textContent = "Habit";
-            headerRow.appendChild(habitHeader);
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth();
 
-            days.forEach(day => {
-                const th = document.createElement("th");
-                th.textContent = day;
-                headerRow.appendChild(th);
-            });
+  const firstDay = new Date(year, month, 1);
+  const lastDay = new Date(year, month + 1, 0);
 
-            table.appendChild(headerRow);
+  for(let i=0; i<firstDay.getDay(); i++) {
+    const div = document.createElement("div");
+    div.className = "calendar-day";
+    calendar.appendChild(div);
+  }
+  for(let d=1; d<=lastDay.getDate(); d++) {
+    const dateKey = new Date(year, month, d).toISOString().slice(0, 10);
+    const percent = monthly[dateKey];
+    const div = document.createElement("div");
+    div.className = "calendar-day";
+    if(percent === undefined) {
+      div.classList.add("empty");
+    } else if(percent === 100) {
+      div.classList.add("filled");
+    } else {
+      div.classList.add("partial");
+    }
+    div.innerHTML = `<strong>${d}</strong><br>${percent !== undefined ? percent + "%" : ""}`;
+    calendar.appendChild(div);
+  }
+}
 
-            // Add rows for each habit
-            habits.forEach(habit => {
-                const row = document.createElement("tr");
+renderWeekTable();
+renderCalendar();
 
-                const habitCell = document.createElement("td");
-                habitCell.textContent = habit;
-                row.appendChild(habitCell);
-
-                days.forEach(day => {
-                    const td = document.createElement("td");
-                    const done = progress[day]?.[habit] === true;
-                    td.textContent = done ? "✔️" : "❌";
-                    row.appendChild(td);
-                });
-
-                table.appendChild(row);
-            });
-
-            // Add progress percentage row
-            const percentageRow = document.createElement("tr");
-            const labelCell = document.createElement("td");
-            labelCell.textContent = "Daily Progress (%)";
-            labelCell.classList.add("highlight");
-            percentageRow.appendChild(labelCell);
-
-            days.forEach(day => {
-                const td = document.createElement("td");
-                let doneCount = 0;
-                if (progress[day]) {
-                    habits.forEach(habit => {
-                        if (progress[day][habit] === true) {
-                            doneCount++;
-                        }
-                    });
-                }
-                const percent = Math.round((doneCount / habits.length) * 100);
-                td.textContent = `${percent}%`;
-                td.classList.add("highlight");
-                percentageRow.appendChild(td);
-            });
-
-            table.appendChild(percentageRow);
-        });
-    </script>
-
+window.addEventListener("storage", function (event) {
+  if (event.key === "weeklyProgress" || event.key === "monthlyProgress") {
+    renderWeekTable();
+    renderCalendar();
+  }
+});
+  </script>
 </body>
 </html>
